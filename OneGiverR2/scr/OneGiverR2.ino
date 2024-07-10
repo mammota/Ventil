@@ -33,8 +33,8 @@ NecDecoder ir;
 byte on_off = 5;
 byte on_vntltr = 6;
 byte tprtr = 8;
-uint8_t my_per = LOW;
-uint8_t my_dv = LOW;
+uint8_t my_per = HIGH;
+uint8_t my_dv = HIGH;
 
 void ds_tmpr () {
    // асинхронное чтение нескольких датчиков смотри в примере async_read_many
@@ -70,6 +70,7 @@ void ds_tmpr () {
     // ваш код по прерыванию по высокому сигналу
     во как
  } */
+void st_Shim () {}
 
 void pusk_Bp () {
    unsigned long heatTimeStamp=millis(); //Время включения вентилятора
@@ -88,10 +89,11 @@ void pusk_Dv () {
   if (my_per == LOW) {
    // unsigned long heatTimeStamp=millis(); //Время включения вентилятора
   my_dv = !my_dv;
+  digitalWrite (on_vntltr, my_dv);
   //while ( millis() - heatTimeStamp < 1000){ 
      //   heatTimeStamp = millis();break;}
-    while (my_per == HIGH && my_dv == HIGH) {
-    digitalWrite (on_vntltr, my_dv); 
+    while (my_per == LOW && my_dv == LOW) {
+     
      ir.readCommand();
      if (ir.available()){
       if (my_per == HIGH ) {
